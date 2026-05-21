@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lease.web.admin.mapper.ApartmentInfoMapper">
+    
+    <!--
+    查询语句使用连接方式，采用左连接。left join
+    总房间数统计：
+    空余房间数：  总房间数 - 已签约数量（2,5）
+    -->
+    <select id="pageItem" resultType="com.example.lease.web.admin.vo.apartment.ApartmentItemVo">
+        select
+            ai.id,
+            ai.name,
+            ai.address_detail,
+            ai.province_name,
+            ai.city_name,
+            ai.district_name,
+            ai.phone,
+            ai.is_release,
+            IFNULL(ar.cnt,0) as totalRoomCount,
+            IFNULL(ar.cnt,0) - IFNULL(la.cnt,0)  as freeRoomCount
+        from
+        (select
+        *
+        from apartment_info
+            <where>and is_deleted = 0
+                <if test="
+            queryVo.provinceId!=null">
+                    and province_id=#{queryVo.provinceId}
+                </if>
+                <if test="queryVo.cityId!=null">
+                    and city_id=#{queryVo.cityId}
+                </if>
+                <if test="queryVo.districtId!=null">
+                    and district_id=#{queryVo.districtId}
+                </if>
+            </where>
+             ) ai
+                left join
+            (select apartment_id,count(*) as cnt from room_info where is_deleted=0 GROUP BY apartment_id) ar on ai.id = ar.apartment_id
+                left join
+            (select
+                 apartment_id,count(*) as cnt
+             from  lease_agreement
+             where is_deleted=0 and status in (2,5) GROUP BY apartment_id
+            ) la on ai.id = la.apartment_id
+    </select>
+    
+</mapper>
