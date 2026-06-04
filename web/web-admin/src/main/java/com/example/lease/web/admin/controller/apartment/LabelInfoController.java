@@ -3,6 +3,7 @@ package com.example.lease.web.admin.controller.apartment;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.lease.common.result.Result;
 import com.example.lease.model.entity.LabelInfo;
+import com.example.lease.model.enums.ItemType;
 import com.example.lease.web.admin.service.LabelInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +23,7 @@ public class LabelInfoController {
     // 查列表
     @Operation(summary = "查询标签列表(根据类型)")
     @GetMapping("list")
-    public Result<List<LabelInfo>> list(@RequestParam(required = false) Integer type) {
+    public Result<List<LabelInfo>> list(@RequestParam(required = false) ItemType type) {
         LambdaQueryWrapper<LabelInfo> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(type!=null,LabelInfo::getType,type);
         List<LabelInfo> list = labelInfoService.list(wrapper);
