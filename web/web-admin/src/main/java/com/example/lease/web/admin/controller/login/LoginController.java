@@ -1,9 +1,11 @@
 package com.example.lease.web.admin.controller.login;
 
+import com.example.lease.common.login.LoginUserHolder;
 import com.example.lease.common.result.Result;
 import com.example.lease.web.admin.service.LoginService;
 import com.example.lease.web.admin.vo.login.CaptchaVo;
 import com.example.lease.web.admin.vo.login.LoginVo;
+import com.example.lease.web.admin.vo.system.user.SystemUserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +30,12 @@ public class LoginController {
     public Result<String> login(@RequestBody LoginVo loginVo) {
         String token = loginService.login(loginVo);
         return Result.ok(token);
+    }
+
+    @Operation(summary = "获取登陆用户个人信息")
+    @GetMapping("info")
+    public Result<SystemUserInfoVo> info() {
+        SystemUserInfoVo userInfo = loginService.getLoginUserInfo(LoginUserHolder.getLoginUser().getUserId());
+        return Result.ok(userInfo);
     }
 }

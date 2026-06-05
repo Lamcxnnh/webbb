@@ -10,6 +10,7 @@ import com.example.lease.web.admin.mapper.SystemUserMapper;
 import com.example.lease.web.admin.service.LoginService;
 import com.example.lease.web.admin.vo.login.CaptchaVo;
 import com.example.lease.web.admin.vo.login.LoginVo;
+import com.example.lease.web.admin.vo.system.user.SystemUserInfoVo;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -78,6 +79,15 @@ public class LoginServiceImpl implements LoginService {
 
         //6.创建并返回TOKEN
         return JwtUtil.createToken(systemUser.getId(), systemUser.getUsername());
+    }
+
+    @Override
+    public SystemUserInfoVo getLoginUserInfo(Long id) {
+        SystemUser systemUser = systemUserMapper.selectById(id);
+        SystemUserInfoVo systemUserInfoVo = new SystemUserInfoVo();
+        systemUserInfoVo.setName(systemUser.getName());
+        systemUserInfoVo.setAvatarUrl(systemUser.getAvatarUrl());
+        return systemUserInfoVo;
     }
 
 }
