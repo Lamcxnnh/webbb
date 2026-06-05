@@ -19,6 +19,11 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 150MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
 #用于打印框架生成的sql语句，便于调试
 mybatis-plus:
   configuration:

@@ -1,10 +1,7 @@
 package com.example.lease.web.admin.mapper;
 
-import com.example.lease.model.entity.SystemUser;
-import com.example.lease.web.admin.vo.system.user.SystemUserItemVo;
-import com.example.lease.web.admin.vo.system.user.SystemUserQueryVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.lease.model.entity.SystemUser;
 
 /**
 * @author liubo
@@ -13,7 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 * @Entity com.example.lease.model.SystemUser
 */
 public interface SystemUserMapper extends BaseMapper<SystemUser> {
-
+    SystemUser selectOneByUsername(String username);
 }
 
 
