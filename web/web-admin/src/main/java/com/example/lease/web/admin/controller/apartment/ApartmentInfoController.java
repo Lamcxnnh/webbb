@@ -1,5 +1,6 @@
 package com.example.lease.web.admin.controller.apartment;
 
+import com.example.lease.common.annotation.LogSys;
 import com.example.lease.common.result.Result;
 import com.example.lease.model.entity.ApartmentInfo;
 import com.example.lease.model.enums.ReleaseStatus;
@@ -26,6 +27,7 @@ public class ApartmentInfoController {
     @Autowired
     ApartmentInfoService apartmentInfoService;
 
+    @LogSys(value = "保存或更新公寓信息")
     @Operation(summary = "保存或更新公寓信息")
     @PostMapping("/saveOrUpdate")
     public Result saveOrUpdate(@RequestBody ApartmentSubmitVo apartmentSubmitVo){
@@ -43,6 +45,7 @@ public class ApartmentInfoController {
         return Result.ok(page);
     }
 
+    @LogSys(value = "查询公寓详情信息")
     @Operation(summary = "根据ID查询公寓详情信息")
     @GetMapping("getDetailById")
     public Result<ApartmentDetailVo> getDetailById(@RequestParam Long id){
@@ -50,6 +53,7 @@ public class ApartmentInfoController {
         return Result.ok(apartmentDetailVo);
     }
 
+    @LogSys(value = "删除公寓信息")
     @Operation(summary = "根据ID删除公寓信息")
     @DeleteMapping("removeById")
     public Result removeById(@RequestParam Long id){
